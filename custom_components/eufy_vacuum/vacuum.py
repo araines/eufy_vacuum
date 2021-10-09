@@ -39,6 +39,14 @@ MODEL_CONFIG = {
     'T2118': {
         'fan_speeds': FAN_SPEEDS,
         'support': SUPPORT_ROBOVAC_T2118
+    },
+    'T2130': {
+        'fan_speeds': FAN_SPEEDS,
+        'support': SUPPORT_ROBOVAC_T2118
+    },
+    'T2250': {
+        'fan_speeds': FAN_SPEEDS,
+        'support': SUPPORT_ROBOVAC_T2118
     }
 }
 
@@ -113,11 +121,11 @@ class EufyVacuum(VacuumEntity):
     @property
     def status(self):
         """Return the status of the vacuum cleaner."""
-        if self.robovac.error_code != robovac.ErrorCode.NO_ERROR:
-            return STATE_ERROR
-        elif self.robovac.go_home:
-            return STATE_RETURNING
-        elif self.robovac.work_status == robovac.WorkStatus.RUNNING:
+        #if self.robovac.error_code != robovac.ErrorCode.NO_ERROR:
+        #    return STATE_ERROR
+        #elif self.robovac.go_home:
+        #    return STATE_RETURNING
+        if self.robovac.work_status == robovac.WorkStatus.RUNNING:
             return STATE_CLEANING
         elif self.robovac.work_status == robovac.WorkStatus.CHARGING:
             return STATE_DOCKED
@@ -130,6 +138,8 @@ class EufyVacuum(VacuumEntity):
             return STATE_IDLE
         elif self.robovac.work_status == robovac.WorkStatus.COMPLETED:
             return STATE_DOCKED
+        else:
+            return STATE_ERROR
 
     @property
     def available(self) -> bool:
